@@ -1,0 +1,33 @@
+﻿@model List<Vidly.Models.Customer>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Details</title>
+</head>
+<body>
+<div>
+    @if (Model.Count == 0)
+    {
+        <h1>Nenhum cliente encontrado!!!</h1>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover">
+            @foreach (var customer in Model)
+            {
+                <tr>
+                    <td class="active">@customer.Name</td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+</body>
+</html>
