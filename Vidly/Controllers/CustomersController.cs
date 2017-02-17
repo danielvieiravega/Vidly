@@ -1,21 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Vidly.Models;
 using System.Data.Entity;
+using Vidly.ViewModels;
 
 
 namespace Vidly.Controllers
 {
     public class CustomersController : Controller
     {
-        private ApplicationDbContext _context;
-
-        readonly List<Customer> _customers = new List<Customer>
-            {
-                new Customer {Id = 1, Name = "Daniel Vieira Vega" },
-                new Customer {Id = 2, Name = "Paloma Santos" }
-            };
+        private readonly ApplicationDbContext _context;
 
         public CustomersController()
         {
@@ -36,7 +30,7 @@ namespace Vidly.Controllers
 
         public ActionResult Details(int id)
         {
-            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            var customer = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
             {
@@ -46,6 +40,21 @@ namespace Vidly.Controllers
             return View(customer);
         }
 
+        public ActionResult New()
+        {
+            var membershipTypes = _context.MembershipTypes.ToList();
+            var viewModel = new NewCustomerViewModel
+            {
+                MembershipTypes = membershipTypes
+            };
 
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Create(NewCustomerViewModel viewlModel)
+        {
+            return View();
+        }
     }
 }
