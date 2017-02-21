@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Vidly.Models
@@ -26,6 +27,8 @@ namespace Vidly.Models
 
         [Required]
         [Display(Name="Number in Stock")]
+        [DefaultValue(0)]
+        [Range(1,20, ErrorMessage = "The field Number In Stock must be between 1 and 20")]
         public int NumberInStock { get; set; }
 
     }
